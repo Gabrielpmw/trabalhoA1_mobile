@@ -63,18 +63,12 @@ class _ListaTarefasScreenState extends State<ListaTarefasScreen> {
   // 3. "Retorno de valores entre telas"
   // ============================================================================
   Future<void> _adicionarTarefa() async {
-    // Navegação para Tela 3 aguardando o retorno do objeto criado
-    final novaTarefa = await Navigator.push<Tarefa>(
-      context,
-      MaterialPageRoute(builder: (context) => const FormularioTarefaScreen()),
-    );
-
-    // setState para refletir o dado devolvido
-    if (novaTarefa != null) {
-      setState(() {
-        _tarefas.add(novaTarefa);
-      });
-    }
+    // PASSO 1
+    // Pseudocódigo:
+    // 1. Navegar para a tela de formulário aguardando um retorno.
+    // 2. Se o retorno não for nulo (uma nova tarefa criada):
+    //    a) Atualizar o estado da tela.
+    //    b) Adicionar a nova tarefa à lista de tarefas.
   }
 
   // ============================================================================
@@ -84,25 +78,16 @@ class _ListaTarefasScreenState extends State<ListaTarefasScreen> {
   // 3. "Tratado na tela chamadora com await Navigator.push(...), seguido de setState"
   // ============================================================================
   Future<void> _abrirDetalhes(int index) async {
-    // Envio do objeto Tarefa pelo construtor para a Tela 2 e aguardo do resultado
-    final resultado = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        // Passagem de parâmetro pelo construtor enviando o objeto Tarefa
-        builder: (context) => DetalhesTarefaScreen(tarefa: _tarefas[index]),
-      ),
-    );
-
-    // setState para refletir a alteração ou exclusão devolvida
-    if (resultado is Tarefa) {
-      setState(() {
-        _tarefas[index] = resultado;
-      });
-    } else if (resultado == 'excluir') {
-      setState(() {
-        _tarefas.removeAt(index);
-      });
-    }
+    // PASSO 2
+    // Pseudocódigo:
+    // 1. Navegar para a tela de detalhes enviando a tarefa correspondente ao índice atual.
+    // 2. Aguardar o resultado dessa tela.
+    // 3. Se o resultado for uma tarefa editada:
+    //    a) Atualizar o estado da tela.
+    //    b) Substituir a tarefa antiga pela nova na lista.
+    // 4. Se o resultado for a instrução de 'excluir':
+    //    a) Atualizar o estado da tela.
+    //    b) Remover a tarefa da lista.
   }
 
   @override
@@ -192,20 +177,13 @@ class _DetalhesTarefaScreenState extends State<DetalhesTarefaScreen> {
   // 3. "await Navigator.push(...), seguido de setState para refletir o dado devolvido."
   // ============================================================================
   Future<void> _editarTarefa() async {
-    final tarefaAtualizada = await Navigator.push<Tarefa>(
-      context,
-      MaterialPageRoute(
-        // Envio do objeto Tarefa via construtor para o Formulário de Edição
-        builder: (context) => FormularioTarefaScreen(tarefa: _tarefa),
-      ),
-    );
-
-    // setState para refletir a alteração feita no formulário
-    if (tarefaAtualizada != null) {
-      setState(() {
-        _tarefa = tarefaAtualizada;
-      });
-    }
+    // PASSO 3
+    // Pseudocódigo:
+    // 1. Navegar para a tela de formulário (modo de edição), enviando a tarefa atual.
+    // 2. Aguardar o retorno com os novos dados modificados.
+    // 3. Se o retorno não for nulo (tarefa foi alterada):
+    //    a) Atualizar o estado da tela.
+    //    b) Substituir os dados da tarefa atual pelos dados atualizados.
   }
 
   // ============================================================================
